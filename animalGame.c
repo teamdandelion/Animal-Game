@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <string.h>
 
-
 #include "basicIO.h"
 #include "binaryTree.h"
 
@@ -17,7 +16,8 @@ int main(){
     root_question="Does your animal have four legs?";
     yes_answer="a rhinoceros";
     no_answer ="a velociraptor";
-    root=makeRootNode((void*) root_question, (void*) yes_answer, (void*) no_answer);
+    root=makeRootNode((void*) root_question);
+    addChildren(root, (void*) yes_answer, (void*) no_answer);
     playGame(root);
 }
 
@@ -28,9 +28,9 @@ void playGame(biNode currentNode){
         question=(char*) getContents(currentNode);
         printf("%s",question);
         if ( getYesNo() )
-        currentNode=getYesNode(currentNode);
+        currentNode=getYesChild(currentNode);
         else
-        currentNode=getNoNode(currentNode);
+        currentNode=getNoChild(currentNode);
     }
     animal=(char*) getContents(currentNode);
     printf("Is your animal %s",animal);
