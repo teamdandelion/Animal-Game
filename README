@@ -1,0 +1,5 @@
+This is the animal game, implemented in C.
+
+Usage: Run animalGame, a binary executable, and play the animal game. Serialization (once implemented) will be stored in ag_data
+
+Stored on github
