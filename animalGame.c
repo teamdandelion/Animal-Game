@@ -2,30 +2,37 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
-#include "animalGame.h"
 
-void playGame(agNode);
+
+#include "basicIO.h"
+#include "binaryTree.h"
+
+void playGame(biNode);
 void gameOver(void);
 
-agNode root=NULL;
+biNode root=NULL;
 
 int main(){
-    root=makeRootNode();
+    char *root_question, *yes_answer, *no_answer;
+    root_question="Does your animal have four legs?";
+    yes_answer="a rhinoceros";
+    no_answer ="a velociraptor";
+    root=makeRootNode((void*) root_question, (void*) yes_answer, (void*) no_answer);
     playGame(root);
 }
 
 
-void playGame(agNode currentNode){
+void playGame(biNode currentNode){
     char *question, *animal;
     while(! isLeaf(currentNode)){
-        question=getString(currentNode);
+        question=(char*) getContents(currentNode);
         printf("%s",question);
         if ( getYesNo() )
         currentNode=getYesNode(currentNode);
         else
         currentNode=getNoNode(currentNode);
     }
-    animal=getString(currentNode);
+    animal=(char*) getContents(currentNode);
     printf("Is your animal %s",animal);
     if ( getYesNo() ){
         printf("Great! I win!\n");
@@ -37,9 +44,8 @@ void playGame(agNode currentNode){
         printf("What animal were you thinking of? >");
         newAnimal=strdup(getLine(stdin));
         printf("What is true of %s but false of %s?\n>",newAnimal,animal);
-        newQuestion=getLine(stdin);
-        addNode(currentNode, newQuestion, newAnimal);
-        free(newAnimal);
+        newQuestion=strdup(getLine(stdin));
+        shiftInsert(currentNode, (void*) newQuestion, (void*) newAnimal);
         gameOver();
     }
 }

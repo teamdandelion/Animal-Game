@@ -1,101 +1,87 @@
 #include <assert.h>
 #include <string.h>
-#include "animalGame.h"
 #include <stdlib.h>
-#include "queue.h"
+
+#include "binaryTree.h" //for typedef
+
 
 //ynNode :: a binary node, consisting of a string 
-struct agNode {
-    char *string;
+struct binaryNode {
+    void *contents;
     int nodeNum;
-    struct agNode *yesNode;
-    struct agNode *noNode;
+    struct binaryNode *yesNode;
+    struct binaryNode *noNode;
 };
 
 
-int isLeaf(agNode);
-agNode makeRootNode(void);
-agNode makeLeafNode(char *, int);
-int addNode(agNode, char *nextQuestion, char *animalName);
-char* getString(agNode);
-agNode getYesNode(agNode);
-agNode getNoNode(agNode);
 
-agNode makeRootNode(void){ //Creates the root node and returns a pointer to it
-    agNode rootNode = (agNode) malloc(sizeof(agNode_store));
-    rootNode->string = "Does your animal have four legs?";
-    rootNode->nodeNum = 1;
-    rootNode->yesNode = makeLeafNode("a rhinoceros",2);
-    rootNode->noNode = makeLeafNode("a bottlenose dolphin",3);
+int isLeaf(biNode); //1 if is leaf, 0 otherwise
+
+biNode makeRootNode(void*, void*, void*); //Makes root node with 2 children
+
+static biNode makeLeafNode(void*, int); //Makes a leaf - internal only. Consider changing to get node # from parent instead of manual input
+
+int shiftInsert(biNode, void *newContents, void *yesContents); //Update current node to new contents, and make parent. Subnode A (i.e. 'yesNode' gets new yesContent; previous contents of current node are shifted to noNode 
+void* getContents(biNode);
+biNode getYesNode(biNode);
+biNode getNoNode(biNode);
+
+biNode makeRootNode(void* contents, void* yesChild, void* noChild){ //Creates the root node and returns a pointer to it
+    biNode rootNode = (biNode) malloc(sizeof(biNode_store));
+    rootNode->contents = contents;
+    rootNode->nodeNum = 0;
+    rootNode->yesNode = makeLeafNode(yesChild,1);
+    rootNode->noNode = makeLeafNode(noChild,2);
     return rootNode;
 }
 
-char* getString(agNode currentNode){
-    return currentNode->string;
+void* getContents(biNode currentNode){
+    return currentNode->contents;
 }
 
-agNode getYesNode(agNode currentNode){
+biNode getYesNode(biNode currentNode){
     return currentNode->yesNode;
 }
 
-agNode getNoNode(agNode currentNode){
+biNode getNoNode(biNode currentNode){
     return currentNode->noNode;
 }
 
-static agNode makeLeafNode(char *name, int nodeNum){
-    agNode leafNode = (agNode) malloc(sizeof(agNode_store));
-    leafNode->string = strdup(name);
+static biNode makeLeafNode(void *contents, int nodeNum){
+    biNode leafNode = (biNode) malloc(sizeof(biNode_store));
+    leafNode->contents = contents;
     leafNode->nodeNum = nodeNum;
     leafNode->yesNode = NULL;
     leafNode->noNode = NULL;
-    assert (leafNode->string != NULL);
+//TODO: account for alloc-err
     return leafNode;
 }
 
-static agNode moveToLeaf(char *animal, int nodeNum){
-    agNode leafNode   = (agNode) malloc(sizeof(agNode_store));
-    leafNode->string  = animal;
+/*
+static biNode moveToLeaf(void *contents, int nodeNum){
+    biNode leafNode   = (biNode) malloc(sizeof(biNode_store));
+    leafNode->contents= contents;
     leafNode->nodeNum = nodeNum;
     leafNode->yesNode = NULL;
     leafNode->noNode  = NULL;
     return leafNode;
-}
+}*/
     
     
-    
-int isLeaf(agNode currentNode){
-if (currentNode->yesNode == NULL) {
-    assert (currentNode->noNode == NULL);
+int isLeaf(biNode currentNode){
+if (currentNode->yesNode == NULL && currentNode->noNode == NULL)
     return 1;
-    }
-else {
-    assert(currentNode->noNode != NULL);
+else 
     return 0;
-    }
 }
 
-int addNode(agNode currentNode, char *nextQuestion, char *yesAnimal){
-    char *noAnimal=currentNode->string;
+int shiftInsert(biNode currentNode, void *newContents, void *yesContents){
+    void *noContents=currentNode->contents;
     int nodeNum = currentNode->nodeNum;
-    agNode yesNode=makeLeafNode(yesAnimal, nodeNum*2);
-    agNode noNode=moveToLeaf(noAnimal, nodeNum*2+1); //Otherwise we would needlessly make a copy of the string and free the original
-    currentNode->string = strdup(nextQuestion);
+    biNode yesNode=makeLeafNode(yesContents, nodeNum*2+1);
+    biNode noNode =makeLeafNode(noContents,  nodeNum*2+2);
+    currentNode->contents=newContents;
     currentNode->yesNode=yesNode;
     currentNode->noNode=noNode;
-    assert (currentNode->yesNode != NULL && currentNode->noNode != NULL);
-    //
-
 }
-
-static int writeAnimalsDB(agNode root, FILE* fp){
-    //Writes the animalgame database. Give it the root node and 
-    //filepointer to write to (opened in 'w' mode)
-    //Utilizes a queue. Writes given node to database, in format NODENUM:String\n
-    //Adds children to queue
-
-
-}
-
-
-
 

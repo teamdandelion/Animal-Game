@@ -50,9 +50,6 @@ return buf;
 
 int getYesNo(){
     int ch;
-//    while ( (ch=getchar()) != '\n' && ch !=EOF)
-//        ;//got this from StackOverflow to 
-// clear the input buffer
     printf(" (y/n): ");
     while ( (ch=getchar()) != 'y' && ch != 'Y' && ch != 'n' && ch != 'N')
         ;
