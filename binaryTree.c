@@ -2,8 +2,9 @@
 #include <string.h>
 #include "animalGame.h"
 #include <stdlib.h>
+#include "queue.h"
 
-//agNode : animal_game_Node
+//ynNode :: a binary node, consisting of a string 
 struct agNode {
     char *string;
     int nodeNum;
@@ -41,7 +42,7 @@ agNode getNoNode(agNode currentNode){
     return currentNode->noNode;
 }
 
-agNode makeLeafNode(char *name, int nodeNum){
+static agNode makeLeafNode(char *name, int nodeNum){
     agNode leafNode = (agNode) malloc(sizeof(agNode_store));
     leafNode->string = strdup(name);
     leafNode->nodeNum = nodeNum;
@@ -51,7 +52,7 @@ agNode makeLeafNode(char *name, int nodeNum){
     return leafNode;
 }
 
-agNode moveToLeaf(char *animal, int nodeNum){
+static agNode moveToLeaf(char *animal, int nodeNum){
     agNode leafNode   = (agNode) malloc(sizeof(agNode_store));
     leafNode->string  = animal;
     leafNode->nodeNum = nodeNum;
@@ -85,3 +86,16 @@ int addNode(agNode currentNode, char *nextQuestion, char *yesAnimal){
     //
 
 }
+
+static int writeAnimalsDB(agNode root, FILE* fp){
+    //Writes the animalgame database. Give it the root node and 
+    //filepointer to write to (opened in 'w' mode)
+    //Utilizes a queue. Writes given node to database, in format NODENUM:String\n
+    //Adds children to queue
+
+
+}
+
+
+
+
