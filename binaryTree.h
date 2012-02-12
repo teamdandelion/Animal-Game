@@ -10,5 +10,8 @@ void* getContents(biNode);
 biNode getYesChild(biNode);
 biNode getNoChild(biNode);
 int addChildren(biNode parent, void* yesContents, void* noContents);
+int saveTree(biNode root, FILE *fp, char *specifier);
+biNode loadTree(FILE *fp, char *specifier);
+
 
 #endif

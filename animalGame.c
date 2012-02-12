@@ -8,19 +8,30 @@
 
 void playGame(biNode);
 void gameOver(void);
+void makeNewRoot();
 
 biNode root=NULL;
 
+
 int main(){
+
+    FILE *readFile = fopen("DB_animalGame","r");
+    if (readFile==NULL)
+        makeNewRoot();
+    else
+        root=loadTree(readFile,"%s");
+    fclose(readFile);
+    playGame(root);
+}
+
+void makeNewRoot(){
     char *root_question, *yes_answer, *no_answer;
     root_question="Does your animal have four legs?";
     yes_answer="a rhinoceros";
     no_answer ="a velociraptor";
     root=makeRootNode((void*) root_question);
     addChildren(root, (void*) yes_answer, (void*) no_answer);
-    playGame(root);
-}
-
+    }
 
 void playGame(biNode currentNode){
     char *question, *animal;
@@ -51,9 +62,20 @@ void playGame(biNode currentNode){
 }
     
 void gameOver(void){
+    //printf("root pointer:%p",root);
     printf("Would you like to play again?");
-    if (getYesNo() )
-    playGame(root);
-    else
-    exit(0);
+    if (getYesNo()){
+        playGame(root);
+    }
+    else{
+        printf("root pointer:%p",root);
+        FILE *fp=fopen("DB_animalGame_temp","w");
+        printf("opened file\n");
+        saveTree(root,fp,"%s");
+        printf("Saved tree to temp");
+        remove("DB_animalGame");
+        fclose(fp);
+        rename("DB_animalGame_temp", "DB_animalGame");
+        exit(0);
+    }
 }

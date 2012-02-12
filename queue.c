@@ -29,7 +29,7 @@ queue create_queue(){
     queue newQueue=(queue) malloc(sizeof(queue_store));
     newQueue->front=NULL;
     newQueue->rear=NULL;
-    int size=0;
+    newQueue->size=0;
 };
 
 void *queue_pop(queue input){
