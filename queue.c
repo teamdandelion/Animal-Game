@@ -12,6 +12,7 @@ void* queue_pop(queue);
 void* queue_peek(queue);
 int queue_append(void*);
 int queue_size(queue);
+int queue_free(queue);
 */
 
 typedef struct queue_cell{
@@ -35,7 +36,7 @@ queue create_queue(){
 void *queue_pop(queue input){
     queue_cell cell=input->front;
     if (cell==NULL){
-        printf("Cell==NULL\n");
+        fprintf(stderr,"Warning: Tried to pop empty queue.\n");
         return NULL;
     }
     void *temp=cell->contents;
@@ -75,3 +76,10 @@ int queue_size(queue input){
     return input->size;
 }
 
+int queue_free(queue input){
+    while (input->size>0)
+    queue_pop(input);
+    
+    free(input);
+}
+    

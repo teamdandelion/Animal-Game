@@ -1,6 +1,6 @@
 # Makefile
 
-CFLAGS= -std=c99
+CFLAGS= -std=c99 -g
 
 animalGame: animalGame.o binaryTree.o basicIO.o queue.o
 

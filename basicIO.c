@@ -17,34 +17,33 @@ char *getLine(FILE *fp){
     assert(buf!=NULL);
     }
 
-int ch;
+    int ch;
 
-while(!isalpha (ch=fgetc(fp))){
-    if (ch==EOF)
-        return NULL;
-}
+    while(isspace (ch=fgetc(fp))){
+        if (ch==EOF)
+            return NULL;
+    } //Scans past whitespace preceding the line
 
-//scans past whitespace
 
-int index=0;
+    int index=0;
 
-while(ch!='\n' && ch != EOF){
+    while(ch!='\n' && ch != EOF){
     //invariants:
     //index < buf_size
     //buf points to buffer of size buf_size
     //buf[0]..buf[index-1] consists of preceding characters in the line
-    buf[index++]=ch;
+        buf[index++]=ch;
     
-    if (index==buf_size){
-        buf_size*=2;
-        buf=realloc(buf,buf_size);
-        assert (buf!=NULL);
+        if (index==buf_size){
+            buf_size*=2;
+            buf=realloc(buf,buf_size);
+            assert (buf!=NULL);
+        }
+    ch=fgetc(fp); 
     }
-    ch=fgetc(fp); //Equivalent to do...while, but I prefer the simpler syntax
-}
 
-buf[index]='\0';
-return buf;
+    buf[index]='\0';
+    return buf;
 }
 
 

@@ -14,12 +14,14 @@ biNode root=NULL;
 
 
 int main(){
-
     FILE *readFile = fopen("DB_animalGame","r");
     if (readFile==NULL)
         makeNewRoot();
-    else
+    else {
         root=loadTree(readFile,"%s");
+        if (root==NULL)
+            makeNewRoot();
+    }
     fclose(readFile);
     playGame(root);
 }
@@ -38,6 +40,7 @@ void playGame(biNode currentNode){
     while(! isLeaf(currentNode)){
         question=(char*) getContents(currentNode);
         printf("%s",question);
+        
         if ( getYesNo() )
         currentNode=getYesChild(currentNode);
         else
@@ -51,9 +54,11 @@ void playGame(biNode currentNode){
     }
     else {
         char *newAnimal, *newQuestion;
-        printf("Great! I get to learn another animal.\n");
+        printf("I lost! Well, I get to learn another animal.\n");
         printf("What animal were you thinking of? >");
         newAnimal=strdup(getLine(stdin));
+        //Need string duplication to make a new copy, since the contents of the getLine 
+        //buffer will change
         printf("What is true of %s but false of %s?\n>",newAnimal,animal);
         newQuestion=strdup(getLine(stdin));
         shiftInsert(currentNode, (void*) newQuestion, (void*) newAnimal);
@@ -62,17 +67,15 @@ void playGame(biNode currentNode){
 }
     
 void gameOver(void){
-    //printf("root pointer:%p",root);
     printf("Would you like to play again?");
     if (getYesNo()){
         playGame(root);
     }
     else{
-        printf("root pointer:%p",root);
         FILE *fp=fopen("DB_animalGame_temp","w");
-        printf("opened file\n");
+        //Save it to a temp file, so if there are any problems we will not corrupt
+        //our database file
         saveTree(root,fp,"%s");
-        printf("Saved tree to temp");
         remove("DB_animalGame");
         fclose(fp);
         rename("DB_animalGame_temp", "DB_animalGame");
