@@ -1,3 +1,7 @@
+/*binaryTree.c 
+the binaryTree interface
+by Dan Mane*/
+
 #include <assert.h>
 #include <string.h>
 #include <stdlib.h>
@@ -187,22 +191,11 @@ biNode loadTree(FILE *fp, char *specifier){
     The strategy for loading a tree:
     Each line in the DB file will be of form
     :(int)nodeNum:string
-    This program will create a biNode from each entry, with no children. It will add
-    each entry to two queues: a parentQueue and a childQueue. Then it pops the root off 
-    the childQueue, and loops through the childQueue while it still has more nodes in
-    queue. Each iteration of the loop, it compares the nodeNum of the top of the 
-    parentQueue with the nodeNum on top of the childQueue, and links the child to parent
-    as appropriate. Each time it links a child, it pops the child off of the childQueue,
-    and when it encounters a child indexed above the current parentNode, it pops the 
-    parentNode off the queue. This approach is memory efficient; it uses memory
-    proportional to the size of the tree, unlike an array-based approach which would 
-    use memory proportional to the highest index of the tree.
+    This program will create a biNode from each entry, with no children. It will add each entry to two queues: a parentQueue and a childQueue. Then it pops the root off the childQueue, and loops through the childQueue while it still has more nodes in queue. Each iteration of the loop, it compares the nodeNum of the top of the parentQueue with the nodeNum on top of the childQueue, and links the child to parent as appropriate. Each time it links a child, it pops the child off of the childQueue, and when it encounters a child indexed above the current parentNode, it pops the parentNode off the queue. This approach is memory efficient; it uses memory proportional to the size of the tree, unlike an array-based approach which would use memory proportional to the highest index of the tree.
     
-    If program is given an empty database file, it will return NULL. Behavior on 
-    badly formed database files is undefined.
+    If program is given an empty database file, it will return NULL. Behavior on badly formed database files is undefined.
     
-    Would like to improve this program to use void*s like the rest of the binaryTree
-    implementation, but not sure how to do so.
+    Would like to improve this program to use void*s like the rest of the binaryTree implementation, but not sure how to do so.
     */
     char* queueContents;
     int nodeNum;
@@ -225,8 +218,7 @@ biNode loadTree(FILE *fp, char *specifier){
     int parentNum, childNum;
     biNode yesChild, noChild; 
     while (queue_size(childQueue)>0){
-        //initialize both children to NULL, so we can use one linkChildren command
-        //and properly link only valid children
+        //initialize both children to NULL, so we can use one linkChildren command, and properly link only valid children
         yesChild    = NULL;
         noChild     = NULL;
         
@@ -270,8 +262,8 @@ biNode loadTree(FILE *fp, char *specifier){
         //yesChild and noChild initialized to NULL. linkChildren ignores NULL inputs.
     }
     
-    //queue_free(parentQueue);
-    //queue_free(childQueue);
+    queue_free(parentQueue);
+    queue_free(childQueue);
     return root;
     
 

@@ -1,5 +1,66 @@
-This is the animal game, implemented in C.
+Dan Mane
 
-Usage: Run animalGame, a binary executable, and play the animal game. Serialization (once implemented) will be stored in ag_data
+AnimalGame README:
 
-Stored on github
+This is the animalGame, written in C and implemented with serialization. It relies on four files:
+
+animalGame.c: The animalGame interface. Handles transition from node to node, and interactions with user.
+
+binaryTree.c: Implements a binary tree, where each node contains a void* pointer to user-defined contents. Can serialize (write trees to and read trees from files), but serialization is currently only enabled with trees containing string contents.
+
+basicIO.c: Includes basic IO functions for getting yes/no responses and getting questions and animal names.
+
+queue.c: Implements a queue (based on Professor Kurtz' example from lecture) because the binaryTree implementation depends on queues for saving and loading trees.
+
+Example interaction:
+~/code/Git/Animal-Game$animalGame 
+Does your animal have four legs? (y/n): y
+Does your animal say 'moo'? (y/n): n
+Does your animal have a long neck? (y/n): n
+Does your animal store nuts? (y/n): n
+Is your animal mythical? (y/n): n
+Is your animal a rhinoceros (y/n): n
+I lost! Well, I get to learn another animal.
+What animal were you thinking of? >a hyena
+What is true of a hyena but false of a rhinoceros?
+>Did your animal side with Scar in the Lion King?
+Would you like to play again? (y/n): n
+
+~/code/Git/Animal-Game$animalGame 
+Does your animal have four legs? (y/n): y
+Does your animal say 'moo'? (y/n): n
+Does your animal have a long neck? (y/n): n
+Does your animal store nuts? (y/n): n
+Is your animal mythical? (y/n): n
+Did your animal side with Scar in the Lion King? (y/n): y
+Is your animal a hyena (y/n): y
+Great! I win!
+Would you like to play again? (y/n): n
+
+Data storage format:
+~/code/Git/Animal-Game$cat DB_animalGame 
+:0:Does your animal have four legs?
+:1:Does your animal say 'moo'?
+:2:Does your animal swim in the sea?
+:3:a cow
+:4:Does your animal have a long neck?
+:5:Does your animal have jaws?
+:6:Does your animal have wings?
+:9:Is your animal mythical?
+:10:Does your animal store nuts?
+:11:a shark
+:12:a dolphin
+:13:Is your animal a bird of prey?
+:14:Does your animal hop around down under?
+:19:a dragon
+:20:a giraffe
+:21:a squirrel
+:22:Is your animal mythical?
+:27:an eagle
+:28:a fruit fly
+:29:a kangaroo
+:30:a velociraptor
+:45:a unicorn
+:46:Did your animal side with Scar in the Lion King?
+:93:a hyena
+:94:a rhinoceros

@@ -1,0 +1,7 @@
+# Makefile
+
+CFLAGS= -std=c99
+
+queue_test: queue_test.o queue.o
+
+queue_test.o: queue.h

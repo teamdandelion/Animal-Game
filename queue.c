@@ -4,8 +4,7 @@
 
 #include "queue.h"
 
-/*
-typedef struct queue *queue, queue_store;
+//typedef struct queue *queue, queue_store; - in header file
 
 queue create_queue();
 void* queue_pop(queue);
@@ -13,7 +12,6 @@ void* queue_peek(queue);
 int queue_append(void*);
 int queue_size(queue);
 int queue_free(queue);
-*/
 
 typedef struct queue_cell{
     void *contents;

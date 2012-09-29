@@ -1,3 +1,7 @@
+/* animalGame.c
+the animalGame interface
+by Dan Mane */
+
 #include <stdlib.h>
 #include <assert.h>
 #include <stdio.h>
@@ -11,7 +15,6 @@ void gameOver(void);
 void makeNewRoot();
 
 biNode root=NULL;
-
 
 int main(){
     FILE *readFile = fopen("DB_animalGame","r");

@@ -1,7 +1,8 @@
 #ifndef BASICIO_H
 #define BASICIO_H
 
-int getYesNo();
 char* getLine(FILE *fp);
+char* getWord(FILE *fp);
+int getYesNo();
 
 #endif
